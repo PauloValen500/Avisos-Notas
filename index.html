@@ -1,11 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avisos y notas</title>
+    <title>Notas y Avisos</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    
+
+<body >
+    <nav class="navbar">
+        <h1>Avisos&Notas</h1>
+
+        <button class="button-comentario">
+            Eniviar comentario
+        </button>
+
+    </nav>
+    <div class="main-container">
+        <div class="avisos-container">
+            <h2>Avisos</h2>
+            <button>Agrergar Aviso</button>
+            <table>
+                <thead>
+                    <th>Fecha</th>
+                    <th>Aviso</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </thead>
+                <tbody>
+                    <td>01/03/2025</td>
+                    <td>Sacar la basura</td>
+                    <td><button>Editar</button></td>
+                    <td><button>Eliminar</button></td>
+                </tbody>
+            </table>
+        </div>
+        <div class="notas-container">
+            <h2>Notas</h2>
+            <button>Agregar Nota</button>
+            
+            <div class="notas-lista">
+                <div class="nota-card">
+                    <p>Ejemplo de nota 1</p>
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                </div>
+        
+                <div class="nota-card">
+                    <p>Ejemplo de nota 2</p>
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                </div>
+        
+                <div class="nota-card">
+                    <p>Ejemplo de nota 3</p>
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
 </body>
 </html>
