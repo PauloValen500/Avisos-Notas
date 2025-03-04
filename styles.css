@@ -8,7 +8,7 @@
 /* Estilo global del body */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #222831; /* Fondo oscuro */
+    background-color: #B0B0B0; /* Fondo oscuro */
     color: #EEEEEE; /* Texto claro */
     margin: 0;
     padding: 0;
@@ -30,19 +30,69 @@ body {
     font-weight: 600;
 }
 
-.button-comentario {
-    background-color: #76ABAE; /* Verde azulado */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+
+.btn:link,
+.btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 40px;
+    display: inline-block;
+    border-radius: 100px;
+    transition: all .2s;
 }
 
-.button-comentario:hover {
-    background-color: #5e9c94; /* Color más oscuro del verde azulado */
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-white {
+    background-color: #fff;
+    color: #777;
+}
+
+.btn::after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+
+.btn-white:hover {
+    background-color: #fff;
+}
+
+.btn:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+.btn-animated {
+    animation: moveInBottom 5s ease-out;
+    animation-fill-mode: backwards;
+}
+
+@keyframes moveInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 /* Contenedor principal */
@@ -59,12 +109,12 @@ body {
     border-radius: 12px;
     padding: 30px;
     width: 48%;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease-in-out;
 }
 
 .avisos-container:hover {
     transform: scale(1.02);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 1);
 }
 
 .avisos-container h2 {
@@ -87,7 +137,7 @@ body {
 }
 
 .avisos-container button:hover {
-    background-color: #5e9c94; /* Color más oscuro del verde azulado */
+    background-color: #4d7a74; /* Color más oscuro del verde azulado */
 }
 
 table {
@@ -127,12 +177,12 @@ button:hover {
     border-radius: 12px;
     padding: 30px;
     width: 48%;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease-in-out;
 }
 
 .notas-container:hover {
     transform: scale(1.02);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 1);
 }
 
 .notas-container h2 {
@@ -155,7 +205,7 @@ button:hover {
 }
 
 .notas-container button:hover {
-    background-color: #5e9c94; /* Color más oscuro del verde azulado */
+    background-color: #4d7a74; /* Color más oscuro del verde azulado */
 }
 
 /* Lista de notas */
@@ -192,7 +242,7 @@ button:hover {
 
 /* Botones de las notas */
 .nota-card button {
-    background-color: #FF5733; /* Naranja vibrante para acciones */
+    background-color: #f7421a; /* Naranja vibrante para acciones */
     color: white;
     border: none;
     padding: 10px 15px;
@@ -204,7 +254,7 @@ button:hover {
 }
 
 .nota-card button:hover {
-    background-color: #E04E29; /* Naranja oscuro */
+    background-color: #b02300; /* Naranja oscuro */
 }
 
 .nota-card button:first-of-type {
