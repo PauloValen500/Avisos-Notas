@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notas y Avisos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
-<body >
+<body>
     <nav class="navbar">
         <h1>Avisos&Notas</h1>
-
-        <div class="text-box">
-            <a href="#" class="btn btn-white btn-animate">Envíanos un comentario</a>
-        </div>
-
+        <button class="button-comentario">Enviar comentario</button>
     </nav>
     <div class="main-container">
         <div class="avisos-container">
             <h2>Avisos</h2>
-            <button>Agrergar Aviso</button>
+            <button id="agregarAvisoBtn">Agregar Aviso</button>
+            <div id="agregarAvisoForm" style="display: none;">
+                <input type="date" id="fechaAviso" required>
+                <textarea id="mensajeAviso" placeholder="Escribe el aviso" required></textarea>
+                <button id="guardarAvisoBtn">Guardar Aviso</button>
+            </div>
             <table>
                 <thead>
                     <th>Fecha</th>
@@ -28,39 +27,117 @@
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </thead>
-                <tbody>
-                    <td>01/03/2025</td>
-                    <td>Sacar la basura</td>
-                    <td><button>Editar</button></td>
-                    <td><button>Eliminar</button></td>
-                </tbody>
+                <tbody id="avisos-table"></tbody>
             </table>
         </div>
         <div class="notas-container">
             <h2>Notas</h2>
-            <button>Agregar Nota</button>
-            
-            <div class="notas-lista">
-                <div class="nota-card">
-                    <p>Ejemplo de nota 1</p>
-                    <button>Editar</button>
-                    <button>Eliminar</button>
-                </div>
-        
-                <div class="nota-card">
-                    <p>Ejemplo de nota 2</p>
-                    <button>Editar</button>
-                    <button>Eliminar</button>
-                </div>
-        
-                <div class="nota-card">
-                    <p>Ejemplo de nota 3</p>
-                    <button>Editar</button>
-                    <button>Eliminar</button>
-                </div>
+            <button id="agregarNotaBtn">Agregar Nota</button>
+            <div id="agregarNotaForm" style="display: none;">
+                <textarea id="contenidoNota" placeholder="Escribe la nota" required></textarea>
+                <button id="guardarNotaBtn">Guardar Nota</button>
             </div>
+            <div class="notas-lista" id="notas-lista"></div>
         </div>
-        
     </div>
+
+<script>
+// Mostrar formularios
+agregarAvisoBtn.onclick = () => agregarAvisoForm.style.display = 'block';
+agregarNotaBtn.onclick = () => agregarNotaForm.style.display = 'block';
+
+// Guardar aviso
+guardarAvisoBtn.onclick = () => {
+    const fecha = fechaAviso.value;
+    const mensaje = mensajeAviso.value;
+    fetch('/avisos', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ fecha, mensaje })
+    })
+    .then(r => r.json())
+    .then(() => location.reload());
+};
+
+// Guardar nota
+guardarNotaBtn.onclick = () => {
+    const contenido = contenidoNota.value;
+    fetch('/notas', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ contenido })
+    })
+    .then(r => r.json())
+    .then(() => location.reload());
+};
+
+// Cargar avisos
+fetch('/avisos')
+.then(r => r.json())
+.then(avisos => {
+    const tabla = document.getElementById('avisos-table');
+    avisos.forEach(aviso => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${aviso.fecha}</td>
+            <td>${aviso.mensaje}</td>
+            <td><button class="editar-aviso">Editar</button></td>
+            <td><button class="eliminar-aviso">Eliminar</button></td>`;
+        row.querySelector('.editar-aviso').addEventListener('click', () => {
+            const nuevoMensaje = prompt("Editar mensaje del aviso:", aviso.mensaje);
+            const nuevaFecha = prompt("Editar fecha del aviso (YYYY-MM-DD):", aviso.fecha);
+            if (nuevoMensaje && nuevaFecha) {
+                fetch(`/avisos/${aviso.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mensaje: nuevoMensaje, fecha: nuevaFecha })
+                }).then(() => location.reload());
+            }
+        });
+        row.querySelector('.eliminar-aviso').addEventListener('click', () => {
+            fetch(`/avisos/${aviso.id}`, { method: 'DELETE' })
+                .then(() => location.reload());
+        });
+        tabla.appendChild(row);
+    });
+});
+
+// Cargar notas
+fetch('/notas')
+.then(r => r.json())
+.then(notas => {
+    const lista = document.getElementById('notas-lista');
+    notas.forEach(nota => {
+        const card = document.createElement('div');
+        card.classList.add('nota-card');
+
+        const texto = document.createElement('p');
+        texto.textContent = nota.contenido;
+
+        const btnEditar = document.createElement('button');
+        btnEditar.textContent = 'Editar';
+        btnEditar.addEventListener('click', () => {
+            const nuevo = prompt("Editar nota:", nota.contenido);
+            if (nuevo) {
+                fetch(`/notas/${nota.id}`, {
+                    method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contenido: nuevo })
+                }).then(() => location.reload());
+            }
+        });
+
+        const btnEliminar = document.createElement('button');
+        btnEliminar.textContent = 'Eliminar';
+        btnEliminar.addEventListener('click', () => {
+            fetch(`/notas/${nota.id}`, { method: 'DELETE' })
+                .then(() => location.reload());
+        });
+
+        card.appendChild(texto);
+        card.appendChild(btnEditar);
+        card.appendChild(btnEliminar);
+
+        lista.appendChild(card);
+    });
+});
+</script>
 </body>
 </html>
