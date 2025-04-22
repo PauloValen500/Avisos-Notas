@@ -148,3 +148,70 @@ func getNotas(w http.ResponseWriter, r *http.Request) {
         return
     }
     defer rows.Close()
+
+    var notas []map[string]string
+    for rows.Next() {
+        var id, contenido string
+        if err := rows.Scan(&id, &contenido); err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+        notas = append(notas, map[string]string{"id": id, "contenido": contenido})
+    }
+
+    json.NewEncoder(w).Encode(notas)
+}
+
+func createNota(w http.ResponseWriter, r *http.Request) {
+    var nota struct {
+        Contenido string `json:"contenido"`
+    }
+    if err := json.NewDecoder(r.Body).Decode(&nota); err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+
+    result, err := db.Exec("INSERT INTO notas (contenido) VALUES (?)", nota.Contenido)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    id, _ := result.LastInsertId()
+    json.NewEncoder(w).Encode(map[string]interface{}{ "id": id, "contenido": nota.Contenido })
+}
+
+func deleteNota(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := vars["id"]
+
+    _, err := db.Exec("DELETE FROM notas WHERE id = ?", id)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    w.WriteHeader(http.StatusNoContent)
+}
+
+func updateNota(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := vars["id"]
+
+    var nota struct {
+        Contenido string `json:"contenido"`
+    }
+
+    if err := json.NewDecoder(r.Body).Decode(&nota); err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+
+    _, err := db.Exec("UPDATE notas SET contenido = ? WHERE id = ?", nota.Contenido, id)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    w.WriteHeader(http.StatusNoContent)
+}
