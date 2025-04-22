@@ -100,3 +100,51 @@ func createAviso(w http.ResponseWriter, r *http.Request) {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
+
+    id, _ := result.LastInsertId()
+    json.NewEncoder(w).Encode(map[string]interface{}{ "id": id, "fecha": aviso.Fecha, "mensaje": aviso.Mensaje })
+}
+
+func deleteAviso(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := vars["id"]
+
+    _, err := db.Exec("DELETE FROM avisos WHERE id = ?", id)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    w.WriteHeader(http.StatusNoContent)
+}
+
+func updateAviso(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := vars["id"]
+
+    var aviso struct {
+        Fecha   string `json:"fecha"`
+        Mensaje string `json:"mensaje"`
+    }
+
+    if err := json.NewDecoder(r.Body).Decode(&aviso); err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+
+    _, err := db.Exec("UPDATE avisos SET fecha = ?, mensaje = ? WHERE id = ?", aviso.Fecha, aviso.Mensaje, id)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    w.WriteHeader(http.StatusNoContent)
+}
+
+func getNotas(w http.ResponseWriter, r *http.Request) {
+    rows, err := db.Query("SELECT id, contenido FROM notas")
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    defer rows.Close()
