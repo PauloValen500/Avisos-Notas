@@ -1,266 +1,269 @@
-/* Reset de márgenes y paddings */
-* {
+/* Variables globales */
+:root {
+    /* Colores */
+    --bg-main: #B0B0B0;
+    --bg-card: #31363F;
+    --text-main: #EEEEEE;
+    --accent: #76ABAE;
+    --accent-dark: #5e9c94;
+    --accent-alt: #4d7a74;
+    --danger: #f7421a;
+    --danger-dark: #b02300;
+    /* Transiciones */
+    --trans-fast: 0.2s ease-in-out;
+    --trans-bg: 0.3s ease;
+    /* Bordes redondeados */
+    --radius-pill: 100px;
+    --radius-card: 12px;
+    --radius-sm: 8px;
+  }
+  
+  /* Reset de márgenes y paddings */
+  *, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-/* Estilo global del body */
-body {
+  }
+  
+  /* Estilo global del body */
+  body {
     font-family: 'Arial', sans-serif;
-    background-color: #B0B0B0; /* Fondo oscuro */
-    color: #EEEEEE; /* Texto claro */
-    margin: 0;
-    padding: 0;
-}
-
-/* Barra de navegación */
-.navbar {
-    background-color: #31363F; /* Gris oscuro */
-    color: #EEEEEE; /* Texto claro */
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+  }
+  
+  /* Barra de navegación */
+  .navbar {
+    background-color: var(--bg-card);
+    color: var(--text-main);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 30px;
-    border-bottom: 2px solid #76ABAE; /* Borde delgado de color verde azulado */
-}
-
-.navbar h1 {
+    border-bottom: 2px solid var(--accent);
+  }
+  .navbar h1 {
     font-size: 24px;
     font-weight: 600;
-}
-
-
-.btn:link,
-.btn:visited {
+  }
+  
+  /* Botones genéricos */
+  .btn:link,
+  .btn:visited {
+    position: relative;
+    display: inline-block;
     text-transform: uppercase;
     text-decoration: none;
     padding: 15px 40px;
-    display: inline-block;
-    border-radius: 100px;
-    transition: all .2s;
-}
-
-.btn:hover {
+    border-radius: var(--radius-pill);
+    transition: transform var(--trans-fast), box-shadow var(--trans-fast);
+    overflow: hidden;
+  }
+  .btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.btn:active {
+  }
+  .btn:active {
     transform: translateY(-1px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-.btn-white {
+  }
+  
+  /* Variante blanco */
+  .btn-white {
     background-color: #fff;
     color: #777;
-}
-
-.btn::after {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-    border-radius: 100px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    transition: all .4s;
-}
-
-.btn-white:hover {
+  }
+  .btn-white:hover {
     background-color: #fff;
-}
-
-.btn:hover::after {
+  }
+  
+  /* Efecto ::after en .btn */
+  .btn::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border-radius: var(--radius-pill);
+    z-index: -1;
+    transition: transform .4s, opacity .4s;
+  }
+  .btn:hover::after {
     transform: scaleX(1.4) scaleY(1.6);
     opacity: 0;
-}
-
-.btn-animated {
-    animation: moveInBottom 5s ease-out;
-    animation-fill-mode: backwards;
-}
-
-@keyframes moveInBottom {
+  }
+  
+  /* Animación de entrada */
+  .btn-animated {
+    animation: moveInBottom 0.5s ease-out backwards;
+  }
+  @keyframes moveInBottom {
     0% {
-        opacity: 0;
-        transform: translateY(30px);
+      opacity: 0;
+      transform: translateY(30px);
     }
-
     100% {
-        opacity: 1;
-        transform: translateY(0px);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-/* Contenedor principal */
-.main-container {
+  }
+  
+  /* Contenedor principal */
+  .main-container {
     display: flex;
     justify-content: space-between;
     padding: 30px;
     gap: 30px;
-}
-
-/* Estilo para la sección de avisos */
-.avisos-container {
-    background-color: #31363F; /* Gris oscuro */
-    border-radius: 12px;
+  }
+  
+  /* Sección de avisos */
+  .avisos-container {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-card);
     padding: 30px;
     width: 48%;
-    transition: transform 0.2s ease-in-out;
-}
-
-.avisos-container:hover {
+    transition: transform var(--trans-fast), box-shadow var(--trans-fast);
+  }
+  .avisos-container:hover {
     transform: scale(1.02);
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 1);
-}
-
-.avisos-container h2 {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 1);
+  }
+  .avisos-container h2 {
     font-size: 22px;
-    color: #76ABAE; /* Verde azulado */
+    color: var(--accent);
     margin-bottom: 20px;
     font-weight: 600;
-}
-
-.avisos-container button {
-    background-color: #76ABAE; /* Verde azulado */
-    color: white;
+  }
+  .avisos-container button {
+    background-color: var(--accent);
+    color: #fff;
     padding: 12px 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--trans-bg);
     margin-bottom: 20px;
-}
-
-.avisos-container button:hover {
-    background-color: #4d7a74; /* Color más oscuro del verde azulado */
-}
-
-table {
+  }
+  .avisos-container button:hover {
+    background-color: var(--accent-alt);
+  }
+  
+  /* Tablas */
+  table {
     width: 100%;
     border-collapse: collapse;
-}
-
-th, td {
+  }
+  th, td {
     padding: 15px;
     text-align: left;
-    border-bottom: 2px solid #555; /* Gris oscuro para los bordes */
-}
-
-th {
-    background-color: #31363F; /* Gris oscuro */
-    color: #76ABAE; /* Verde azulado */
-}
-
-button {
-    background-color: #76ABAE; /* Verde azulado */
-    color: white;
+    border-bottom: 2px solid #555;
+  }
+  th {
+    background-color: var(--bg-card);
+    color: var(--accent);
+  }
+  
+  /* Botones secundarios globales */
+  button {
+    background-color: var(--accent);
+    color: #fff;
     padding: 10px 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #5e9c94; /* Color más oscuro del verde azulado */
-}
-
-/* Estilo para la sección de notas */
-.notas-container {
-    background-color: #31363F; /* Gris oscuro */
-    border-radius: 12px;
+    transition: background-color var(--trans-bg);
+  }
+  button:hover {
+    background-color: var(--accent-dark);
+  }
+  
+  /* Sección de notas */
+  .notas-container {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-card);
     padding: 30px;
     width: 48%;
-    transition: transform 0.2s ease-in-out;
-}
-
-.notas-container:hover {
+    transition: transform var(--trans-fast), box-shadow var(--trans-fast);
+  }
+  .notas-container:hover {
     transform: scale(1.02);
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 1);
-}
-
-.notas-container h2 {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 1);
+  }
+  .notas-container h2 {
     font-size: 22px;
-    color: #76ABAE; /* Verde azulado */
+    color: var(--accent);
     margin-bottom: 20px;
     font-weight: 600;
-}
-
-.notas-container button {
-    background-color: #76ABAE; /* Verde azulado */
-    color: white;
+  }
+  .notas-container button {
+    background-color: var(--accent);
+    color: #fff;
     padding: 12px 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--trans-bg);
     margin-bottom: 20px;
-}
-
-.notas-container button:hover {
-    background-color: #4d7a74; /* Color más oscuro del verde azulado */
-}
-
-/* Lista de notas */
-.notas-lista {
+  }
+  .notas-container button:hover {
+    background-color: var(--accent-alt);
+  }
+  
+  /* Lista de notas */
+  .notas-lista {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-/* Card de cada nota */
-.nota-card {
-    background-color: #31363F; /* Gris oscuro */
-    border-left: 8px solid #76ABAE; /* Verde azulado */
+  }
+  
+  /* Tarjeta de cada nota */
+  .nota-card {
+    background-color: var(--bg-card);
+    border-left: 8px solid var(--accent);
     padding: 20px;
-    border-radius: 12px;
+    border-radius: var(--radius-card);
     box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: transform 0.3s ease-in-out;
-}
-
-.nota-card:hover {
+    transition: transform var(--trans-fast);
+  }
+  .nota-card:hover {
     transform: scale(1.03);
-}
-
-.nota-card p {
+  }
+  .nota-card p {
     margin: 0;
     flex-grow: 1;
-    color: #EEEEEE; /* Texto claro */
+    color: var(--text-main);
     font-size: 18px;
     font-weight: 500;
-}
-
-/* Botones de las notas */
-.nota-card button {
-    background-color: #f7421a; /* Naranja vibrante para acciones */
-    color: white;
-    border: none;
+  }
+  
+  /* Botones dentro de cada nota */
+  .nota-card button {
     padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 8px;
+    border: none;
+    border-radius: var(--radius-sm);
     font-size: 14px;
+    cursor: pointer;
+    transition: background-color var(--trans-bg);
     margin-left: 15px;
-    transition: background-color 0.3s ease;
-}
-
-.nota-card button:hover {
-    background-color: #b02300; /* Naranja oscuro */
-}
-
-.nota-card button:first-of-type {
-    background-color: #76ABAE; /* Verde azulado */
-}
-
-.nota-card button:first-of-type:hover {
-    background-color: #5e9c94; /* Verde más oscuro */
-}
+  }
+  .nota-card button:first-of-type {
+    background-color: var(--accent);
+    color: #fff;
+  }
+  .nota-card button:first-of-type:hover {
+    background-color: var(--accent-dark);
+  }
+  .nota-card button:last-of-type {
+    background-color: var(--danger);
+    color: #fff;
+  }
+  .nota-card button:last-of-type:hover {
+    background-color: var(--danger-dark);
+  }
+  
