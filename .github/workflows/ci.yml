@@ -12,6 +12,14 @@ jobs:
       - name: Clonar repositorio
         uses: actions/checkout@v3
 
+      - name: Instalar Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.20  # ✅ Especifica la versión de Go necesaria
+
+      - name: Ejecutar tests automatizados
+        run: go test ./...
+
       - name: Iniciar sesión en Docker Hub
         uses: docker/login-action@v2
         with:
