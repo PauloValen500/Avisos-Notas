@@ -19,6 +19,7 @@ jobs:
 
       - name: Inicializar módulo y descargar dependencias
         run: |
+          echo "Ejecutando go mod tidy"
           go mod tidy
 
       - name: Ejecutar tests automatizados
