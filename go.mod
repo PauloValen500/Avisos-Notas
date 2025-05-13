@@ -1,4 +1,4 @@
-module notas-y-avisos
+module github.com/PauloValen500/Avisos-Notas
 
 go 1.20
 
