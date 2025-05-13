@@ -56,11 +56,18 @@ http://localhost:8080
 Este repositorio incluye un flujo de trabajo automático configurado en `.github/workflows/ci.yml`. Cada vez que se haga un **push a la rama `main`**, se ejecuta el siguiente proceso:
 
 1. Clona el repositorio
-2. Inicia sesión en Docker Hub con los secrets del repositorio (`DOCKER_USERNAME` y `DOCKER_PASSWORD`)
-3. Construye la imagen del proyecto
-4. Publica automáticamente la imagen en Docker Hub:
+2. Instala Go y verifica su versión
+3. Ejecuta `go mod download` para instalar dependencias
+4. Ejecuta pruebas automatizadas desde `main_test.go`
+5. Inicia sesión en Docker Hub con los secrets del repositorio (`DOCKER_USERNAME` y `DOCKER_PASSWORD`)
+6. Construye la imagen del proyecto
+7. Publica automáticamente la imagen en Docker Hub:
 
 🔗 [https://hub.docker.com/repository/docker/angelisrael03/notas-y-avisos](https://hub.docker.com/repository/docker/angelisrael03/notas-y-avisos)
+
+> 🧪 **Sobre los tests automatizados**:
+>
+> Se incluyó un archivo `main_test.go` para verificar que el servidor pueda servir correctamente los archivos estáticos como `index.html`. Esta prueba es ejecutada automáticamente por GitHub Actions usando `go test ./...`, asegurando así que la aplicación sea funcional antes de subir su imagen a Docker Hub.
 
 ---
 
@@ -74,6 +81,7 @@ Este repositorio incluye un flujo de trabajo automático configurado en `.github
 ├── Dockerfile             # Instrucciones para contenerizar la app
 ├── go.mod / go.sum        # Dependencias Go
 ├── main.go                # Lógica backend del servidor
+├── main_test.go           # Pruebas automatizadas básicas
 ├── index.html             # Interfaz de usuario
 ├── styles.css             # Estilos visuales
 ├── notas-y-avisos.db      # Base de datos SQLite (generada al ejecutar)
@@ -84,11 +92,11 @@ Este repositorio incluye un flujo de trabajo automático configurado en `.github
 
 ## 👥 Colaboradores
 
-- Paulo Valenzuela  
-- Aldo299  
-- MichCelis  
-- AndreAguilera10  
 - AngelIsrael03
+- AndreAguilera10  
+- MichCelis 
+- Paulo Valenzuela  
+- Aldo299   
 
 ---
 
