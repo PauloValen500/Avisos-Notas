@@ -27,7 +27,7 @@ jobs:
         shell: bash
 
       - name: Ejecutar tests automatizados
-        run: go test ./...
+        run: go test -v ./...
 
       - name: Iniciar sesión en Docker Hub
         uses: docker/login-action@v2
